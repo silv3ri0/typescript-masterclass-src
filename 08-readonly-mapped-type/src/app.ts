@@ -17,3 +17,5 @@ function freeze<T>(obj: T): MyReadonly<T> {
 }
 
 const newPerson = freeze(person);
+
+console.log("newPerson----->"+newPerson.name)

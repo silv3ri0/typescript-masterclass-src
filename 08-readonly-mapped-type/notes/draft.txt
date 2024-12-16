@@ -1,0 +1,48 @@
+è stato creato un oggetto di tipo person con due proprietà, questo oggetto è mutabile nel senso che puoi fare person.name = 'Gianluca'
+
+type MyReadonly<T> = {
+  readonly [P in keyof T]: T[P];
+};
+
+Cosa fa?
+Questo è un mapped type chiamato MyReadonly, che prende un tipo generico T come input e restituisce un nuovo tipo in cui tutte le proprietà di T sono contrassegnate come readonly.
+
+Come funziona il mapped type:
+[P in keyof T]: Itera su tutte le chiavi di T.
+readonly: Aggiunge il modificatore readonly a ciascuna proprietà.
+T[P]: Mantiene il tipo originale della proprietà.
+Ad esempio:
+
+Se T è { name: string; age: number; }
+MyReadonly<T> diventa { readonly name: string; readonly age: number; }.
+Questo rende ogni proprietà immutabile.
+
+function freeze<T>(obj: T): MyReadonly<T> {
+  return Object.freeze(obj);
+}
+
+Cosa Fa?
+La funzione freeze prende un oggetto generico obj di tipo T e restituisce un oggetto di tipo MyReadonly<T>. Usa il metodo Object.freeze() di JavaScript per rendere l'oggetto effettivamente immutabile.
+
+Che cosa fa Object.freeze?
+Object.freeze è un metodo nativo di JavaScript che rende un oggetto immutabile. Dopo aver chiamato Object.freeze, non puoi più:
+
+Modificare i valori delle proprietà.
+Aggiungere nuove proprietà.
+Rimuovere proprietà.
+
+const frozenObj = Object.freeze({ name: 'Gianluca' });
+// frozenObj.name = 'Bob'; // Errore: Cannot assign to 'name'
+Grazie al tipo MyReadonly, TypeScript riconosce che l'oggetto restituito è immutabile e ti segnalerà errori se provi a modificarlo.
+
+const newPerson = freeze(person);
+La funzione freeze viene chiamata con person come argomento:
+
+person è mutabile.
+La funzione restituisce newPerson, che è immutabile (grazie al tipo MyReadonly e al metodo Object.freeze).
+
+const newPerson = freeze(person);
+La funzione freeze viene chiamata con person come argomento:
+
+person è mutabile.
+La funzione restituisce newPerson, che è immutabile (grazie al tipo MyReadonly e al metodo Object.freeze).
